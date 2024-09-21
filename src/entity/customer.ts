@@ -12,7 +12,7 @@ import Address from "./address";
 // - Entity / Model
 //   -- Customer.ts (get, set)
 
-class Customer {
+export default class Customer {
   _id: string;
   _name: string;
   _address!: Address;
