@@ -10,6 +10,7 @@
     "typescript": "^5.6.2"
   },
   "scripts": {
-    "test": "jest --verbose"
+    "tsc": "tsc",
+    "test": "npm run tsc -- --noEmit && jest --verbose"
   }
 }
