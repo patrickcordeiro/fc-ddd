@@ -46,6 +46,10 @@ export default class Customer {
     return this._name;
   }
 
+  get Address(): Address {
+    return this._address;
+  }
+
   changeName(name: string) {
     this._name = name;
     this.validate();
