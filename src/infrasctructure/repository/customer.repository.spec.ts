@@ -41,7 +41,7 @@ describe("Customer repository test", () => {
       rewardPoints: customer.rewardPoints,
       street: address.street,
       number: address.number,
-      zipCode: address.zip,
+      zipcode: address.zip,
       city: address.city,
     });
   });
@@ -66,7 +66,7 @@ describe("Customer repository test", () => {
       rewardPoints: customer.rewardPoints,
       street: address.street,
       number: address.number,
-      zipCode: address.zip,
+      zipcode: address.zip,
       city: address.city,
     });
   });

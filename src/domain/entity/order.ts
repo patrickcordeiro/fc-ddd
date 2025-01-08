@@ -44,6 +44,18 @@ export default class Order {
     return true;
   }
 
+  addItem(item: OrderItem) {
+    const itemAlreadyExistsInOrder = this._items.find(
+      (itemOrder) => itemOrder.id === item.id
+    );
+
+    if (itemAlreadyExistsInOrder) {
+      throw new Error("Item already exists in the order");
+    }
+
+    this._items.push(item);
+  }
+
   total(): number {
     return this._items.reduce((acc, item) => acc + item.orderItemTotal(), 0);
   }

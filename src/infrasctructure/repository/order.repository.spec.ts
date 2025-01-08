@@ -35,6 +35,7 @@ describe("Order repository test", () => {
   afterEach(async () => {
     await sequelize.close();
   });
+
   it("should create a new order", async () => {
     const customerRepository = new CustomerRepository();
     const customer = new Customer("123", "Customer 1");
@@ -82,5 +83,74 @@ describe("Order repository test", () => {
         },
       ],
     });
+  });
+
+  it("should update an order adding an order item", async () => {
+    const customerRepository = new CustomerRepository();
+    const customer = new Customer("123", "Customer 1");
+    const address = new Address("Street 1", 1, "Zipcode 1", "City 1");
+    customer.changeAddress(address);
+
+    await customerRepository.create(customer);
+
+    const productRepository = new ProductRepository();
+    const product = new Product("123", "Product 1", 10);
+    await productRepository.create(product);
+
+    const orderItem = new OrderItem(
+      "1",
+      product.name,
+      product.price,
+      product.id,
+      2
+    );
+
+    const order = new Order("123", "123", [orderItem]);
+
+    const orderRepository = new OrderRepository();
+    await orderRepository.create(order);
+
+    const product2 = new Product("1234", "Product 2", 20);
+
+    const orderItem2 = new OrderItem(
+      "2",
+      product2.name,
+      product2.price,
+      product2.id,
+      2
+    );
+
+    order.addItem(orderItem2);
+
+    await orderRepository.update(order);
+
+    const orderModel = await OrderModel.findOne({
+      where: {
+        id: order.id,
+      },
+      include: ["items"],
+    });
+
+    console.log(orderModel.toJSON().items);
+
+    expect(orderModel.total).toBe(60);
+
+    // expect(orderModel.items.length).toBe(2);
+
+    // expect(orderModel.toJSON()).toStrictEqual({
+    //   id: "123",
+    //   customer_id: "123",
+    //   total: order.total(),
+    //   items: [
+    //     {
+    //       id: orderItem.id,
+    //       name: orderItem.name,
+    //       price: orderItem.price,
+    //       quantity: orderItem.quantity,
+    //       order_id: "123",
+    //       product_id: "123",
+    //     },
+    //   ],
+    // });
   });
 });
